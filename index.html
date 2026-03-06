@@ -254,14 +254,117 @@
     }
     .toast.show { transform:translateY(0); opacity:1; }
 
-    @media (max-width:820px) {
-      .layout { grid-template-columns:1fr; }
-      .sidebar { position:static; }
-      .hero, .layout { padding-left:1.25rem; padding-right:1.25rem; }
+    /* ── MOBILE BOTTOM SHEET ── */
+    .fab {
+      display: none;
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 200;
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      color: #fff; font-size: 1.5rem; border: none; cursor: pointer;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+      align-items: center; justify-content: center;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    ::-webkit-scrollbar { width:5px; }
-    ::-webkit-scrollbar-track { background:transparent; }
-    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:99px; }
+    .fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(124,58,237,0.5); }
+    .fab:active { transform: scale(0.95); }
+
+    .sheet-overlay {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      background: rgba(15,15,20,0.45); backdrop-filter: blur(3px);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .sheet-overlay.open { display: block; opacity: 1; }
+
+    .bottom-sheet {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+      background: var(--surface); border-radius: 20px 20px 0 0;
+      padding: 0 1.25rem 2rem;
+      transform: translateY(100%);
+      transition: transform 0.32s cubic-bezier(0.34,1.1,0.64,1);
+      max-height: 92vh; overflow-y: auto;
+    }
+    .bottom-sheet.open { transform: translateY(0); }
+
+    .sheet-handle {
+      width: 40px; height: 4px; border-radius: 99px;
+      background: var(--border); margin: 0.8rem auto 1.1rem;
+    }
+    .sheet-title {
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem;
+      letter-spacing: -0.3px; margin-bottom: 0.2rem;
+    }
+    .sheet-sub { font-size: 0.77rem; color: var(--muted); margin-bottom: 1.1rem; }
+
+    /* ── RESPONSIVE ── */
+
+    /* Tablet */
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .hero-stats { width: 100%; }
+      .stat-pill { flex: 1; min-width: 70px; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      .nav-date { display: none; }
+
+      .hero { padding: 1.75rem 1rem 1.25rem; gap: 1.25rem; }
+      .hero h1 { font-size: 1.85rem; letter-spacing: -1px; }
+      .hero p  { font-size: 0.88rem; }
+      .hero-stats { gap: 0.6rem; }
+      .stat-pill { padding: 0.6rem 0.75rem; min-width: 0; }
+      .stat-pill .val { font-size: 1.15rem; }
+      .stat-pill .lbl { font-size: 0.6rem; }
+
+      .layout { padding: 0 1rem 6rem; gap: 1.25rem; }
+
+      /* Hide sidebar on mobile — shown in bottom sheet instead */
+      .sidebar { display: none; }
+
+      /* Show FAB */
+      .fab { display: flex; }
+
+      /* Filters scroll horizontally */
+      .filters {
+        flex-wrap: nowrap; overflow-x: auto; gap: 0.35rem;
+        padding-bottom: 0.25rem; margin-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .filters::-webkit-scrollbar { display: none; }
+      .chip { white-space: nowrap; flex-shrink: 0; font-size: 0.77rem; padding: 0.32rem 0.85rem; }
+
+      .card { padding: 1.1rem 1.1rem 0.75rem; border-radius: 12px; }
+      .card-body { font-size: 0.92rem; line-height: 1.68; }
+      .card-top { flex-wrap: wrap; gap: 0.35rem; }
+      .card-time { margin-left: auto; }
+
+      .act-btn { font-size: 0.82rem; padding: 0.35rem 0.6rem; }
+      .cmt-toggle { font-size: 0.78rem; }
+
+      .add-cmt input  { font-size: 0.88rem; padding: 0.55rem 0.75rem; }
+      .add-cmt button { padding: 0.55rem 0.9rem; font-size: 0.82rem; }
+
+      .config-banner { font-size: 0.72rem; }
+
+      /* Toast full-width on mobile */
+      .toast {
+        bottom: 1rem; left: 1rem; right: 1rem;
+        text-align: center; border-radius: 10px;
+      }
+    }
+
+    /* Very small screens */
+    @media (max-width: 380px) {
+      .hero h1 { font-size: 1.6rem; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; }
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
   </style>
 </head>
 <body>
@@ -291,7 +394,8 @@
 
   <!-- FEED -->
   <section>
-    
+   
+
     <div class="filters">
       <button class="chip active" data-f="all"    onclick="setFilter('all',this)">All</button>
       <button class="chip"        data-f="crush"  onclick="setFilter('crush',this)">💌 Crush</button>
@@ -331,7 +435,7 @@
       </div>
       <div class="field">
         <label>Campus <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-        <input type="text" id="conf-campus" placeholder="e.g. Navodaya Institute Of Technology" maxlength="60" />
+        <input type="text" id="conf-campus" placeholder="e.g. IIT Bombay, UCLA…" maxlength="60" />
       </div>
 
       <button class="submit-btn" id="submit-btn" onclick="submitConfession()">Confess Anonymously →</button>
@@ -351,6 +455,41 @@
     </div>
 
   </aside>
+</div>
+
+<!-- FAB -->
+<button class="fab" id="fab" onclick="openSheet()" aria-label="Make a confession">✦</button>
+
+<!-- Sheet overlay -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
+
+<!-- Bottom Sheet -->
+<div class="bottom-sheet" id="bottom-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-title">Make a Confession</div>
+  <div class="sheet-sub">Totally anonymous. No account needed.</div>
+  <div class="field">
+    <label>Your confession</label>
+    <textarea id="conf-text-m" placeholder="I skipped every lecture but still aced finals…" maxlength="500" oninput="updateCharM()"></textarea>
+    <div class="char-bar"><span id="char-m">0</span>/500</div>
+  </div>
+  <div class="field">
+    <label>Category</label>
+    <select id="conf-cat-m">
+      <option value="general">📝 General</option>
+      <option value="crush">💌 Crush</option>
+      <option value="regret">😔 Regret</option>
+      <option value="funny">😂 Funny</option>
+      <option value="secret">🤫 Secret</option>
+      <option value="rant">😤 Rant</option>
+    </select>
+  </div>
+  <div class="field">
+    <label>Campus <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+    <input type="text" id="conf-campus-m" placeholder="e.g. IIT Bombay, UCLA…" maxlength="60" />
+  </div>
+  <button class="submit-btn" id="submit-btn-m" onclick="submitMobile()">Confess Anonymously →</button>
+  <div style="text-align:center;font-size:0.7rem;color:var(--muted);margin-top:0.65rem">🔒 No IP logged · No tracking</div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -568,6 +707,56 @@
     document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active', b.dataset.f===tag));
     fetchFeed();
   }
+
+  // ── Mobile bottom sheet ──
+  function openSheet() {
+    document.getElementById('sheet-overlay').classList.add('open');
+    document.getElementById('bottom-sheet').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('conf-text-m').focus(), 350);
+  }
+
+  function closeSheet() {
+    document.getElementById('sheet-overlay').classList.remove('open');
+    document.getElementById('bottom-sheet').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateCharM() {
+    document.getElementById('char-m').textContent =
+      document.getElementById('conf-text-m').value.length;
+  }
+
+  async function submitMobile() {
+    const text   = document.getElementById('conf-text-m').value.trim();
+    const cat    = document.getElementById('conf-cat-m').value;
+    const campus = document.getElementById('conf-campus-m').value.trim();
+    if (!text || text.length < 10) { showToast('✗ Needs at least 10 characters'); return; }
+
+    const btn = document.getElementById('submit-btn-m');
+    btn.disabled = true; btn.textContent = 'Posting…';
+    try {
+      const { error } = await db.from('confessions').insert({
+        content:text, category:cat, campus:campus||null, likes_count:0, comments_count:0
+      });
+      if (error) throw error;
+      document.getElementById('conf-text-m').value = '';
+      document.getElementById('conf-campus-m').value = '';
+      document.getElementById('conf-cat-m').value = 'general';
+      updateCharM();
+      closeSheet();
+      showToast('✓ Confession posted anonymously!');
+      fetchFeed();
+    } catch(e) {
+      showToast('✗ Failed — check Supabase config');
+      console.error(e);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Confess Anonymously →';
+    }
+  }
+
+  // Close sheet on Escape key
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
 
   db.channel('cc-rt')
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'confessions'},()=>{
