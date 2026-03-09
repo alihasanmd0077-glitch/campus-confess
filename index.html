@@ -1,29 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CampusConfess</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
-      --bg:       #f8f8fb;
-      --surface:  #ffffff;
-      --border:   #ebebf0;
-      --pink:     #ff3d71;
-      --violet:   #7c3aed;
-      --cyan:     #06b6d4;
-      --lime:     #84cc16;
-      --amber:    #f59e0b;
-      --ink:      #0f0f14;
-      --ink2:     #3b3b4f;
-      --muted:    #8b8b9e;
-      --radius:   14px;
+      --bg: #f8f8fb;
+      --surface: #ffffff;
+      --border: #ebebf0;
+      --pink: #ff3d71;
+      --violet: #7c3aed;
+      --cyan: #06b6d4;
+      --lime: #84cc16;
+      --amber: #f59e0b;
+      --ink: #0f0f14;
+      --ink2: #3b3b4f;
+      --muted: #8b8b9e;
+      --radius: 14px;
       --radius-sm: 8px;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Instrument Sans', sans-serif;
       background: var(--bg);
@@ -34,393 +48,953 @@
 
     /* NAV */
     nav {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(248,248,251,0.85);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(248, 248, 251, 0.85);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
     }
+
     .nav-inner {
-      max-width: 1160px; margin: 0 auto;
-      height: 60px; display: flex; align-items: center; gap: 1.2rem;
+      max-width: 1160px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
     }
+
     .logo {
-      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.22rem;
-      color: var(--ink); letter-spacing: -0.5px;
-      display: flex; align-items: center; gap: 0.45rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.22rem;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
     }
+
     .logo-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--pink); animation: pulse 2s ease-in-out infinite;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--pink);
+      animation: pulse 2s ease-in-out infinite;
     }
+
     @keyframes pulse {
-      0%,100% { opacity:1; transform:scale(1); }
-      50%      { opacity:0.5; transform:scale(1.5); }
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.5);
+      }
     }
+
     .live-badge {
-      font-size: 0.67rem; font-weight: 600; letter-spacing: 0.06em;
-      text-transform: uppercase; padding: 0.2rem 0.65rem; border-radius: 99px;
-      background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;
+      font-size: 0.67rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.65rem;
+      border-radius: 99px;
+      background: #f0fdf4;
+      color: #16a34a;
+      border: 1px solid #bbf7d0;
     }
-    .nav-date { margin-left: auto; font-size: 0.77rem; color: var(--muted); font-weight: 500; }
+
+    .nav-date {
+      margin-left: auto;
+      font-size: 0.77rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
 
     /* HERO */
     .hero {
-      max-width: 1160px; margin: 0 auto;
+      max-width: 1160px;
+      margin: 0 auto;
       padding: 3rem 2rem 1.75rem;
-      display: flex; align-items: flex-end;
-      justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
     }
+
     .hero h1 {
-      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
       font-size: clamp(2rem, 4vw, 2.9rem);
-      letter-spacing: -1.5px; line-height: 1.12; color: var(--ink);
+      letter-spacing: -1.5px;
+      line-height: 1.12;
+      color: var(--ink);
     }
+
     .hero h1 em {
       font-style: italic;
       background: linear-gradient(130deg, var(--pink) 0%, var(--violet) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .hero p { margin-top: 0.55rem; font-size: 0.93rem; color: var(--muted); max-width: 400px; line-height: 1.6; }
-    .hero-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero p {
+      margin-top: 0.55rem;
+      font-size: 0.93rem;
+      color: var(--muted);
+      max-width: 400px;
+      line-height: 1.6;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
     .stat-pill {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 0.75rem 1.1rem; min-width: 85px; text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1.1rem;
+      min-width: 85px;
+      text-align: center;
     }
-    .stat-pill .val { font-family:'Syne',sans-serif; font-weight:700; font-size:1.35rem; display:block; color:var(--ink); }
-    .stat-pill .lbl { font-size:0.67rem; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); display:block; margin-top:0.1rem; }
+
+    .stat-pill .val {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      display: block;
+      color: var(--ink);
+    }
+
+    .stat-pill .lbl {
+      font-size: 0.67rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      display: block;
+      margin-top: 0.1rem;
+    }
 
     /* LAYOUT */
     .layout {
-      max-width: 1160px; margin: 0 auto;
+      max-width: 1160px;
+      margin: 0 auto;
       padding: 0 2rem 4rem;
-      display: grid; grid-template-columns: 1fr 355px;
-      gap: 1.75rem; align-items: start;
+      display: grid;
+      grid-template-columns: 1fr 355px;
+      gap: 1.75rem;
+      align-items: start;
     }
 
     /* CHIPS */
-    .filters { display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:1.25rem; }
-    .chip {
-      font-size: 0.8rem; font-weight: 500;
-      padding: 0.38rem 1rem; border-radius: 99px;
-      border: 1.5px solid var(--border); background: var(--surface);
-      color: var(--ink2); cursor: pointer; transition: all 0.15s;
+    .filters {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
     }
-    .chip:hover { border-color: var(--violet); color: var(--violet); }
-    .chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+    .chip {
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.38rem 1rem;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--ink2);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chip:hover {
+      border-color: var(--violet);
+      color: var(--violet);
+    }
+
+    .chip.active {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
 
     /* CARDS */
-    .feed { display:flex; flex-direction:column; gap:0.65rem; }
+    .feed {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
     .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1.3rem 1.4rem 0.9rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.4rem 0.9rem;
       transition: box-shadow 0.2s, border-color 0.2s;
       animation: fadeUp 0.3s ease both;
     }
-    .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-color: #d4d4e0; }
+
+    .card:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      border-color: #d4d4e0;
+    }
+
     @keyframes fadeUp {
-      from { opacity:0; transform:translateY(8px); }
-      to   { opacity:1; transform:translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .card-top { display:flex; align-items:center; gap:0.45rem; margin-bottom:0.8rem; }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 0.8rem;
+    }
+
     .cat-badge {
-      font-size: 0.69rem; font-weight: 600; letter-spacing:0.03em;
-      padding: 0.2rem 0.65rem; border-radius: 99px;
+      font-size: 0.69rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      padding: 0.2rem 0.65rem;
+      border-radius: 99px;
     }
-    .cat-general { background:#f1f5f9; color:#475569; }
-    .cat-crush   { background:#fff0f3; color:#e11d48; }
-    .cat-regret  { background:#eff6ff; color:#2563eb; }
-    .cat-funny   { background:#fefce8; color:#ca8a04; }
-    .cat-secret  { background:#f5f3ff; color:#7c3aed; }
-    .cat-rant    { background:#f0fdf4; color:#16a34a; }
-    .campus-tag  { font-size:0.69rem; font-weight:500; color:var(--muted); background:var(--bg); padding:0.2rem 0.6rem; border-radius:99px; }
-    .card-time   { font-size:0.69rem; color:var(--muted); margin-left:auto; }
-    .card-body   { font-size:0.96rem; line-height:1.72; color:var(--ink2); }
-    .card-foot   {
-      display:flex; align-items:center; gap:0.25rem;
-      margin-top:0.9rem; padding-top:0.7rem; border-top:1px solid var(--border);
+
+    .cat-general {
+      background: #f1f5f9;
+      color: #475569;
     }
+
+    .cat-crush {
+      background: #fff0f3;
+      color: #e11d48;
+    }
+
+    .cat-regret {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+
+    .cat-funny {
+      background: #fefce8;
+      color: #ca8a04;
+    }
+
+    .cat-secret {
+      background: #f5f3ff;
+      color: #7c3aed;
+    }
+
+    .cat-rant {
+      background: #f0fdf4;
+      color: #16a34a;
+    }
+
+    .campus-tag {
+      font-size: 0.69rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--bg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+    }
+
+    .card-time {
+      font-size: 0.69rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    .card-body {
+      font-size: 0.96rem;
+      line-height: 1.72;
+      color: var(--ink2);
+    }
+
+    .card-foot {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 0.9rem;
+      padding-top: 0.7rem;
+      border-top: 1px solid var(--border);
+    }
+
     .act-btn {
-      display:inline-flex; align-items:center; gap:0.3rem;
-      font-size:0.77rem; font-weight:500; color:var(--muted);
-      background:none; border:none; cursor:pointer;
-      padding:0.28rem 0.55rem; border-radius:6px; transition:all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.77rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.28rem 0.55rem;
+      border-radius: 6px;
+      transition: all 0.15s;
     }
-    .act-btn:hover { background:var(--bg); color:var(--ink2); }
-    .act-btn.liked { color:var(--pink); }
+
+    .act-btn:hover {
+      background: var(--bg);
+      color: var(--ink2);
+    }
+
+    .act-btn.liked {
+      color: var(--pink);
+    }
+
     .cmt-toggle {
-      margin-left:auto; font-size:0.74rem; font-weight:500; color:var(--muted);
-      background:none; border:none; cursor:pointer;
-      padding:0.28rem 0.55rem; border-radius:6px; transition:all 0.15s;
+      margin-left: auto;
+      font-size: 0.74rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.28rem 0.55rem;
+      border-radius: 6px;
+      transition: all 0.15s;
     }
-    .cmt-toggle:hover { background:var(--bg); color:var(--ink2); }
+
+    .cmt-toggle:hover {
+      background: var(--bg);
+      color: var(--ink2);
+    }
 
     /* COMMENTS */
-    .cmts-wrap { display:none; margin-top:0.9rem; background:var(--bg); border-radius:var(--radius-sm); padding:0.8rem 0.9rem; }
-    .cmts-wrap.open { display:block; }
-    .cmt-item { font-size:0.82rem; color:var(--ink2); line-height:1.55; padding:0.45rem 0; border-bottom:1px solid var(--border); }
-    .cmt-item:last-of-type { border-bottom:none; }
-    .cmt-who { font-size:0.65rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:0.12rem; }
-    .add-cmt { display:flex; gap:0.45rem; margin-top:0.7rem; }
+    .cmts-wrap {
+      display: none;
+      margin-top: 0.9rem;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      padding: 0.8rem 0.9rem;
+    }
+
+    .cmts-wrap.open {
+      display: block;
+    }
+
+    .cmt-item {
+      font-size: 0.82rem;
+      color: var(--ink2);
+      line-height: 1.55;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cmt-item:last-of-type {
+      border-bottom: none;
+    }
+
+    .cmt-who {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.12rem;
+    }
+
+    .add-cmt {
+      display: flex;
+      gap: 0.45rem;
+      margin-top: 0.7rem;
+    }
+
     .add-cmt input {
-      flex:1; font-family:'Instrument Sans',sans-serif; font-size:0.81rem;
-      padding:0.48rem 0.75rem; border:1.5px solid var(--border);
-      border-radius:var(--radius-sm); background:var(--surface);
-      color:var(--ink); outline:none; transition:border-color 0.15s;
+      flex: 1;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.81rem;
+      padding: 0.48rem 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s;
     }
-    .add-cmt input:focus { border-color:var(--violet); }
+
+    .add-cmt input:focus {
+      border-color: var(--violet);
+    }
+
     .add-cmt button {
-      font-family:'Instrument Sans',sans-serif; font-size:0.78rem; font-weight:600;
-      padding:0.48rem 0.95rem; background:var(--violet); color:#fff;
-      border:none; border-radius:var(--radius-sm); cursor:pointer; transition:opacity 0.15s;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.48rem 0.95rem;
+      background: var(--violet);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: opacity 0.15s;
     }
-    .add-cmt button:hover { opacity:0.85; }
+
+    .add-cmt button:hover {
+      opacity: 0.85;
+    }
 
     /* SIDEBAR */
-    .sidebar { position:sticky; top:76px; display:flex; flex-direction:column; gap:1rem; }
+    .sidebar {
+      position: sticky;
+      top: 76px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
     .form-card {
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius); padding:1.4rem;
-      position:relative; overflow:hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
     }
+
     .form-card::before {
-      content:''; position:absolute; top:0; left:0; right:0; height:3px;
-      background:linear-gradient(90deg, var(--pink), var(--violet), var(--cyan));
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--violet), var(--cyan));
     }
-    .form-card h2 { font-family:'Syne',sans-serif; font-weight:700; font-size:1.08rem; letter-spacing:-0.3px; margin-bottom:0.2rem; }
-    .form-card > p { font-size:0.77rem; color:var(--muted); margin-bottom:1.2rem; }
-    .field { margin-bottom:0.85rem; }
-    .field label { display:block; font-size:0.71rem; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--muted); margin-bottom:0.3rem; }
-    .field textarea, .field select, .field input[type="text"] {
-      width:100%; font-family:'Instrument Sans',sans-serif; font-size:0.87rem;
-      color:var(--ink); background:var(--bg); border:1.5px solid var(--border);
-      border-radius:var(--radius-sm); padding:0.58rem 0.8rem;
-      outline:none; resize:vertical; transition:border-color 0.15s, background 0.15s;
+
+    .form-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.08rem;
+      letter-spacing: -0.3px;
+      margin-bottom: 0.2rem;
     }
-    .field textarea { min-height:96px; }
-    .field textarea:focus, .field select:focus, .field input:focus { border-color:var(--violet); background:var(--surface); }
-    .char-bar { display:flex; justify-content:flex-end; font-size:0.66rem; color:var(--muted); margin-top:0.22rem; }
+
+    .form-card>p {
+      font-size: 0.77rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .field {
+      margin-bottom: 0.85rem;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.71rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .field textarea,
+    .field select,
+    .field input[type="text"] {
+      width: 100%;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.87rem;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.58rem 0.8rem;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .field textarea {
+      min-height: 96px;
+    }
+
+    .field textarea:focus,
+    .field select:focus,
+    .field input:focus {
+      border-color: var(--violet);
+      background: var(--surface);
+    }
+
+    .char-bar {
+      display: flex;
+      justify-content: flex-end;
+      font-size: 0.66rem;
+      color: var(--muted);
+      margin-top: 0.22rem;
+    }
+
     .submit-btn {
-      width:100%; font-family:'Syne',sans-serif; font-size:0.88rem; font-weight:700;
-      padding:0.78rem; border-radius:var(--radius-sm); border:none;
-      background:linear-gradient(135deg, var(--pink) 0%, var(--violet) 100%);
-      color:#fff; cursor:pointer; transition:opacity 0.15s, transform 0.1s;
+      width: 100%;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.78rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: linear-gradient(135deg, var(--pink) 0%, var(--violet) 100%);
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
     }
-    .submit-btn:hover  { opacity:0.88; transform:translateY(-1px); }
-    .submit-btn:active { transform:translateY(0); }
-    .submit-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
-    .anon-note { text-align:center; font-size:0.7rem; color:var(--muted); margin-top:0.65rem; }
+
+    .submit-btn:hover {
+      opacity: 0.88;
+      transform: translateY(-1px);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .anon-note {
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 0.65rem;
+    }
 
     .info-card {
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius); padding:1.2rem 1.3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.3rem;
     }
-    .info-card h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin-bottom:0.85rem; }
-    .mood-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; }
+
+    .info-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4rem;
+    }
+
     .mood-btn {
-      font-size:0.77rem; font-weight:500; padding:0.42rem 0.7rem;
-      border-radius:var(--radius-sm); border:1.5px solid var(--border);
-      background:var(--surface); color:var(--ink2); cursor:pointer; transition:all 0.15s; text-align:left;
+      font-size: 0.77rem;
+      font-weight: 500;
+      padding: 0.42rem 0.7rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--ink2);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
     }
-    .mood-btn:hover { border-color:var(--violet); color:var(--violet); background:#f5f3ff; }
+
+    .mood-btn:hover {
+      border-color: var(--violet);
+      color: var(--violet);
+      background: #f5f3ff;
+    }
 
     /* CONFIG */
     .config-banner {
-      background:#fffbeb; border:1px solid #fde68a; border-radius:var(--radius-sm);
-      padding:0.7rem 0.9rem; font-size:0.74rem; color:#92400e; line-height:1.5; margin-bottom:1.2rem;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 0.9rem;
+      font-size: 0.74rem;
+      color: #92400e;
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
     }
 
     /* STATES */
-    .loading-state { text-align:center; padding:3.5rem 0; }
-    .spinner {
-      width:26px; height:26px; border:2.5px solid var(--border);
-      border-top-color:var(--violet); border-radius:50%;
-      animation:spin 0.6s linear infinite; margin:0 auto 0.7rem;
+    .loading-state {
+      text-align: center;
+      padding: 3.5rem 0;
     }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    .loading-label { font-size:0.78rem; color:var(--muted); }
-    .empty-state { text-align:center; padding:3.5rem 0; font-size:0.88rem; color:var(--muted); }
-    .empty-icon  { font-size:2.2rem; display:block; margin-bottom:0.65rem; }
+
+    .spinner {
+      width: 26px;
+      height: 26px;
+      border: 2.5px solid var(--border);
+      border-top-color: var(--violet);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin: 0 auto 0.7rem;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3.5rem 0;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 0.65rem;
+    }
 
     /* TOAST */
     .toast {
-      position:fixed; bottom:1.5rem; right:1.5rem; z-index:999;
-      background:var(--ink); color:#fff; font-size:0.81rem; font-weight:500;
-      padding:0.72rem 1.2rem; border-radius:var(--radius-sm);
-      box-shadow:0 8px 28px rgba(0,0,0,0.18);
-      transform:translateY(16px); opacity:0;
-      transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); pointer-events:none;
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 999;
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.81rem;
+      font-weight: 500;
+      padding: 0.72rem 1.2rem;
+      border-radius: var(--radius-sm);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+      transform: translateY(16px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
     }
-    .toast.show { transform:translateY(0); opacity:1; }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
 
     @media (max-width:820px) {
-      .layout { grid-template-columns:1fr; }
-      .sidebar { position:static; }
-      .hero, .layout { padding-left:1.25rem; padding-right:1.25rem; }
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .hero,
+      .layout {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
     }
-    ::-webkit-scrollbar { width:5px; }
-    ::-webkit-scrollbar-track { background:transparent; }
-    ::-webkit-scrollbar-thumb { background:var(--border); border-radius:99px; }
+
+    /* IMAGES */
+    .img-preview-wrap {
+      margin-top: 0.75rem;
+      display: none;
+      position: relative;
+    }
+
+    .img-preview-wrap.active {
+      display: block;
+    }
+
+    .img-preview {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .img-remove {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+      backdrop-filter: blur(4px);
+      border: none;
+      transition: transform 0.15s;
+    }
+
+    .img-remove:hover {
+      transform: scale(1.1);
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .card-img-wrap {
+      margin-bottom: 1rem;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .card-img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--violet);
+      padding: 0.6rem 0.8rem;
+      background: var(--bg);
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .file-input-label:hover {
+      border-color: var(--violet);
+      background: #f5f3ff;
+    }
+
+    #conf-img {
+      display: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 99px;
+    }
   </style>
 </head>
+
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <div class="logo"><div class="logo-dot"></div>CampusConfess</div>
-    <span class="live-badge">● Live</span>
-    <span class="nav-date" id="live-date"></span>
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-dot"></div>CampusConfess
+      </div>
+      <span class="live-badge">● Live</span>
+      <span class="nav-date" id="live-date"></span>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <h1>Your campus,<br><em>unfiltered.</em></h1>
+      <p>Drop your confessions anonymously. No login, no judgment — just honesty.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-pill"><span class="val" id="stat-total">—</span><span class="lbl">Confessions</span></div>
+      <div class="stat-pill"><span class="val" id="stat-today">—</span><span class="lbl">Today</span></div>
+      <div class="stat-pill"><span class="val" id="stat-likes">—</span><span class="lbl">Likes</span></div>
+      <div class="stat-pill"><span class="val" id="stat-comments">—</span><span class="lbl">Replies</span></div>
+    </div>
   </div>
-</nav>
 
-<div class="hero">
-  <div>
-    <h1>Your campus,<br><em>unfiltered.</em></h1>
-    <p>Drop your confessions anonymously. No login, no judgment — just honesty.</p>
+  <div class="layout">
+
+    <!-- FEED -->
+    <section>
+
+      <div class="filters">
+        <button class="chip active" data-f="all" onclick="setFilter('all',this)">All</button>
+        <button class="chip" data-f="crush" onclick="setFilter('crush',this)">💌 Crush</button>
+        <button class="chip" data-f="regret" onclick="setFilter('regret',this)">😔 Regret</button>
+        <button class="chip" data-f="funny" onclick="setFilter('funny',this)">😂 Funny</button>
+        <button class="chip" data-f="secret" onclick="setFilter('secret',this)">🤫 Secret</button>
+        <button class="chip" data-f="rant" onclick="setFilter('rant',this)">😤 Rant</button>
+      </div>
+
+      <div class="feed" id="feed">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <div class="loading-label">Loading confessions…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="form-card">
+        <h2>Make a Confession</h2>
+        <p>Totally anonymous. No account needed.</p>
+
+        <div class="field">
+          <label>Your confession</label>
+          <textarea id="conf-text" placeholder="I skipped every lecture but still aced the finals somehow…"
+            maxlength="500" oninput="updateChar()"></textarea>
+          <div class="char-bar"><span id="char-n">0</span>/500</div>
+        </div>
+        <div class="field">
+          <label>Category</label>
+          <select id="conf-cat">
+            <option value="general">📝 General</option>
+            <option value="crush">💌 Crush</option>
+            <option value="regret">😔 Regret</option>
+            <option value="funny">😂 Funny</option>
+            <option value="secret">🤫 Secret</option>
+            <option value="rant">😤 Rant</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Campus <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <input type="text" id="conf-campus" placeholder="e.g. Navodaya Institute Of Technology" maxlength="60" />
+        </div>
+
+        <div class="field">
+          <label>Add Image <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <label for="conf-img" class="file-input-label">
+            <span>📸 Choose a photo</span>
+          </label>
+          <input type="file" id="conf-img" accept="image/*" onchange="handleImgSelect(this)" />
+
+          <div class="img-preview-wrap" id="img-preview-wrap">
+            <img src="" id="img-preview-tag" class="img-preview" />
+            <button class="img-remove" onclick="removeImg()">×</button>
+          </div>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="submitConfession()">Confess Anonymously →</button>
+        <div class="anon-note">🔒 No IP logged · No tracking</div>
+      </div>
+
+      <div class="info-card">
+        <h3>Browse by Mood</h3>
+        <div class="mood-grid">
+          <button class="mood-btn" onclick="setFilterTag('crush')">💌 Crush</button>
+          <button class="mood-btn" onclick="setFilterTag('regret')">😔 Regret</button>
+          <button class="mood-btn" onclick="setFilterTag('funny')">😂 Funny</button>
+          <button class="mood-btn" onclick="setFilterTag('secret')">🤫 Secret</button>
+          <button class="mood-btn" onclick="setFilterTag('rant')">😤 Rant</button>
+          <button class="mood-btn" onclick="setFilterTag('general')">📝 General</button>
+        </div>
+      </div>
+
+    </aside>
   </div>
-  <div class="hero-stats">
-    <div class="stat-pill"><span class="val" id="stat-total">—</span><span class="lbl">Confessions</span></div>
-    <div class="stat-pill"><span class="val" id="stat-today">—</span><span class="lbl">Today</span></div>
-    <div class="stat-pill"><span class="val" id="stat-likes">—</span><span class="lbl">Likes</span></div>
-    <div class="stat-pill"><span class="val" id="stat-comments">—</span><span class="lbl">Replies</span></div>
-  </div>
-</div>
 
-<div class="layout">
+  <div class="toast" id="toast"></div>
 
-  <!-- FEED -->
-  <section>
-    
-    <div class="filters">
-      <button class="chip active" data-f="all"    onclick="setFilter('all',this)">All</button>
-      <button class="chip"        data-f="crush"  onclick="setFilter('crush',this)">💌 Crush</button>
-      <button class="chip"        data-f="regret" onclick="setFilter('regret',this)">😔 Regret</button>
-      <button class="chip"        data-f="funny"  onclick="setFilter('funny',this)">😂 Funny</button>
-      <button class="chip"        data-f="secret" onclick="setFilter('secret',this)">🤫 Secret</button>
-      <button class="chip"        data-f="rant"   onclick="setFilter('rant',this)">😤 Rant</button>
-    </div>
+  <script>
+    // ══════════════════════════════════════════════
+    //  ⚙  YOUR SUPABASE CREDENTIALS
+    // ══════════════════════════════════════════════
+    const SUPABASE_URL = 'https://qyfrztlwumyougnnpttl.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5ZnJ6dGx3dW15b3Vnbm5wdHRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MDczOTcsImV4cCI6MjA4ODI4MzM5N30.kXEsezQvx1DwtYDvqpMDkIaYqYVRh6rw-6tq5t00ntk';
+    // ══════════════════════════════════════════════
 
-    <div class="feed" id="feed">
-      <div class="loading-state"><div class="spinner"></div><div class="loading-label">Loading confessions…</div></div>
-    </div>
-  </section>
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
+    let currentFilter = 'all';
+    let likedIds = JSON.parse(localStorage.getItem('cc_liked') || '[]');
 
-    <div class="form-card">
-      <h2>Make a Confession</h2>
-      <p>Totally anonymous. No account needed.</p>
+    document.getElementById('live-date').textContent =
+      new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
 
-      <div class="field">
-        <label>Your confession</label>
-        <textarea id="conf-text" placeholder="I skipped every lecture but still aced the finals somehow…" maxlength="500" oninput="updateChar()"></textarea>
-        <div class="char-bar"><span id="char-n">0</span>/500</div>
-      </div>
-      <div class="field">
-        <label>Category</label>
-        <select id="conf-cat">
-          <option value="general">📝 General</option>
-          <option value="crush">💌 Crush</option>
-          <option value="regret">😔 Regret</option>
-          <option value="funny">😂 Funny</option>
-          <option value="secret">🤫 Secret</option>
-          <option value="rant">😤 Rant</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Campus <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-        <input type="text" id="conf-campus" placeholder="e.g. Navodaya Institute Of Technology" maxlength="60" />
-      </div>
-
-      <button class="submit-btn" id="submit-btn" onclick="submitConfession()">Confess Anonymously →</button>
-      <div class="anon-note">🔒 No IP logged · No tracking</div>
-    </div>
-
-    <div class="info-card">
-      <h3>Browse by Mood</h3>
-      <div class="mood-grid">
-        <button class="mood-btn" onclick="setFilterTag('crush')">💌 Crush</button>
-        <button class="mood-btn" onclick="setFilterTag('regret')">😔 Regret</button>
-        <button class="mood-btn" onclick="setFilterTag('funny')">😂 Funny</button>
-        <button class="mood-btn" onclick="setFilterTag('secret')">🤫 Secret</button>
-        <button class="mood-btn" onclick="setFilterTag('rant')">😤 Rant</button>
-        <button class="mood-btn" onclick="setFilterTag('general')">📝 General</button>
-      </div>
-    </div>
-
-  </aside>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-  // ══════════════════════════════════════════════
-  //  ⚙  YOUR SUPABASE CREDENTIALS
-  // ══════════════════════════════════════════════
-  const SUPABASE_URL      = 'https://qyfrztlwumyougnnpttl.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF5ZnJ6dGx3dW15b3Vnbm5wdHRsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MDczOTcsImV4cCI6MjA4ODI4MzM5N30.kXEsezQvx1DwtYDvqpMDkIaYqYVRh6rw-6tq5t00ntk';
-  // ══════════════════════════════════════════════
-
-  const { createClient } = supabase;
-  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  let currentFilter = 'all';
-  let likedIds = JSON.parse(localStorage.getItem('cc_liked') || '[]');
-
-  document.getElementById('live-date').textContent =
-    new Date().toLocaleDateString('en-US', { weekday:'long', month:'short', day:'numeric' });
-
-  function updateChar() {
-    document.getElementById('char-n').textContent =
-      document.getElementById('conf-text').value.length;
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2800);
-  }
-
-  function timeAgo(ts) {
-    const d = Math.floor((Date.now() - new Date(ts)) / 1000);
-    if (d < 60)    return 'just now';
-    if (d < 3600)  return `${Math.floor(d/60)}m ago`;
-    if (d < 86400) return `${Math.floor(d/3600)}h ago`;
-    return `${Math.floor(d/86400)}d ago`;
-  }
-
-  function esc(s) {
-    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  const CAT_LABELS = {
-    general:'📝 General', crush:'💌 Crush', regret:'😔 Regret',
-    funny:'😂 Funny', secret:'🤫 Secret', rant:'😤 Rant'
-  };
-
-  function renderFeed(list) {
-    const el = document.getElementById('feed');
-    if (!list.length) {
-      el.innerHTML = `<div class="empty-state"><span class="empty-icon">🫥</span>No confessions here yet.<br>Be the first to spill.</div>`;
-      return;
+    function updateChar() {
+      document.getElementById('char-n').textContent =
+        document.getElementById('conf-text').value.length;
     }
-    el.innerHTML = list.map((c, i) => `
-      <div class="card" style="animation-delay:${i*0.035}s" id="card-${c.id}">
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    function timeAgo(ts) {
+      const d = Math.floor((Date.now() - new Date(ts)) / 1000);
+      if (d < 60) return 'just now';
+      if (d < 3600) return `${Math.floor(d / 60)}m ago`;
+      if (d < 86400) return `${Math.floor(d / 3600)}h ago`;
+      return `${Math.floor(d / 86400)}d ago`;
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    const CAT_LABELS = {
+      general: '📝 General', crush: '💌 Crush', regret: '😔 Regret',
+      funny: '😂 Funny', secret: '🤫 Secret', rant: '😤 Rant'
+    };
+
+    function renderFeed(list) {
+      const el = document.getElementById('feed');
+      if (!list.length) {
+        el.innerHTML = `<div class="empty-state"><span class="empty-icon">🫥</span>No confessions here yet.<br>Be the first to spill.</div>`;
+        return;
+      }
+      el.innerHTML = list.map((c, i) => `
+      <div class="card" style="animation-delay:${i * 0.035}s" id="card-${c.id}">
         <div class="card-top">
-          <span class="cat-badge cat-${c.category||'general'}">${CAT_LABELS[c.category]||'📝 General'}</span>
+          <span class="cat-badge cat-${c.category || 'general'}">${CAT_LABELS[c.category] || '📝 General'}</span>
           ${c.campus ? `<span class="campus-tag">${esc(c.campus)}</span>` : ''}
           <span class="card-time">${timeAgo(c.created_at)}</span>
         </div>
+        ${c.image_url ? `
+          <div class="card-img-wrap">
+            <img src="${c.image_url}" class="card-img" alt="Confession Image" loading="lazy" />
+          </div>
+        ` : ''}
         <p class="card-body">${esc(c.content)}</p>
         <div class="card-foot">
-          <button class="act-btn ${likedIds.includes(c.id)?'liked':''}" onclick="toggleLike('${c.id}',this)">
-            <span class="ik">${likedIds.includes(c.id)?'♥':'♡'}</span>
-            <span class="lc">${c.likes_count||0}</span>
+          <button class="act-btn ${likedIds.includes(c.id) ? 'liked' : ''}" onclick="toggleLike('${c.id}',this)">
+            <span class="ik">${likedIds.includes(c.id) ? '♥' : '♡'}</span>
+            <span class="lc">${c.likes_count || 0}</span>
           </button>
           <button class="act-btn" onclick="toggleCmts('${c.id}')">
-            💬 <span id="cc-${c.id}">${c.comments_count||0}</span>
+            💬 <span id="cc-${c.id}">${c.comments_count || 0}</span>
           </button>
           <button class="cmt-toggle" onclick="toggleCmts('${c.id}')">replies ↓</button>
         </div>
@@ -434,148 +1008,199 @@
         </div>
       </div>
     `).join('');
-  }
+    }
 
-  async function fetchFeed() {
-    document.getElementById('feed').innerHTML =
-      `<div class="loading-state"><div class="spinner"></div><div class="loading-label">Loading confessions…</div></div>`;
-    try {
-      let q = db.from('confessions').select('*').order('created_at',{ascending:false}).limit(60);
-      if (currentFilter !== 'all') q = q.eq('category', currentFilter);
-      const { data, error } = await q;
-      if (error) throw error;
-      renderFeed(data || []);
-      fetchStats();
-    } catch(e) {
+    async function fetchFeed() {
       document.getElementById('feed').innerHTML =
-        `<div class="empty-state"><span class="empty-icon">⚠️</span>Could not load confessions.<br><small>Check your Supabase credentials.</small></div>`;
-      console.error(e);
+        `<div class="loading-state"><div class="spinner"></div><div class="loading-label">Loading confessions…</div></div>`;
+      try {
+        let q = db.from('confessions').select('*').order('created_at', { ascending: false }).limit(60);
+        if (currentFilter !== 'all') q = q.eq('category', currentFilter);
+        const { data, error } = await q;
+        if (error) throw error;
+        renderFeed(data || []);
+        fetchStats();
+      } catch (e) {
+        document.getElementById('feed').innerHTML =
+          `<div class="empty-state"><span class="empty-icon">⚠️</span>Could not load confessions.<br><small>Check your Supabase credentials.</small></div>`;
+        console.error(e);
+      }
     }
-  }
 
-  async function fetchStats() {
-    try {
-      const { count: total } = await db.from('confessions').select('*',{count:'exact',head:true});
-      const tod = new Date(); tod.setHours(0,0,0,0);
-      const { count: todayN } = await db.from('confessions').select('*',{count:'exact',head:true}).gte('created_at',tod.toISOString());
-      const { data: ld } = await db.from('confessions').select('likes_count');
-      const tl = (ld||[]).reduce((s,r)=>s+(r.likes_count||0),0);
-      const { count: tc } = await db.from('comments').select('*',{count:'exact',head:true});
-      document.getElementById('stat-total').textContent    = total||0;
-      document.getElementById('stat-today').textContent    = todayN||0;
-      document.getElementById('stat-likes').textContent    = tl||0;
-      document.getElementById('stat-comments').textContent = tc||0;
-    } catch(e) { console.warn(e); }
-  }
-
-  async function submitConfession() {
-    const text   = document.getElementById('conf-text').value.trim();
-    const cat    = document.getElementById('conf-cat').value;
-    const campus = document.getElementById('conf-campus').value.trim();
-    if (!text || text.length < 10) { showToast('✗ Needs at least 10 characters'); return; }
-
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true; btn.textContent = 'Posting…';
-    try {
-      const { error } = await db.from('confessions').insert({
-        content:text, category:cat, campus:campus||null, likes_count:0, comments_count:0
-      });
-      if (error) throw error;
-      document.getElementById('conf-text').value = '';
-      document.getElementById('conf-campus').value = '';
-      document.getElementById('conf-cat').value = 'general';
-      updateChar();
-      showToast('✓ Confession posted anonymously!');
-      fetchFeed();
-    } catch(e) {
-      showToast('✗ Failed — check Supabase config');
-      console.error(e);
-    } finally {
-      btn.disabled = false; btn.textContent = 'Confess Anonymously →';
+    async function fetchStats() {
+      try {
+        const { count: total } = await db.from('confessions').select('*', { count: 'exact', head: true });
+        const tod = new Date(); tod.setHours(0, 0, 0, 0);
+        const { count: todayN } = await db.from('confessions').select('*', { count: 'exact', head: true }).gte('created_at', tod.toISOString());
+        const { data: ld } = await db.from('confessions').select('likes_count');
+        const tl = (ld || []).reduce((s, r) => s + (r.likes_count || 0), 0);
+        const { count: tc } = await db.from('comments').select('*', { count: 'exact', head: true });
+        document.getElementById('stat-total').textContent = total || 0;
+        document.getElementById('stat-today').textContent = todayN || 0;
+        document.getElementById('stat-likes').textContent = tl || 0;
+        document.getElementById('stat-comments').textContent = tc || 0;
+      } catch (e) { console.warn(e); }
     }
-  }
 
-  async function toggleLike(id, btn) {
-    const isLiked = likedIds.includes(id);
-    const lcEl = btn.querySelector('.lc');
-    const ikEl = btn.querySelector('.ik');
-    const cur  = parseInt(lcEl.textContent)||0;
-    const next = isLiked ? cur-1 : cur+1;
-    lcEl.textContent = next;
-    if (isLiked) {
-      likedIds = likedIds.filter(x=>x!==id);
-      btn.classList.remove('liked'); ikEl.textContent = '♡';
-    } else {
-      likedIds.push(id);
-      btn.classList.add('liked'); ikEl.textContent = '♥';
-    }
-    localStorage.setItem('cc_liked', JSON.stringify(likedIds));
-    await db.from('confessions').update({likes_count:next}).eq('id',id);
-  }
+    let selectedFile = null;
 
-  async function toggleCmts(id) {
-    const wrap = document.getElementById(`cmts-${id}`);
-    const open = wrap.classList.toggle('open');
-    if (open) loadComments(id);
-  }
-
-  async function loadComments(confId) {
-    const el = document.getElementById(`clist-${confId}`);
-    try {
-      const { data, error } = await db.from('comments')
-        .select('*').eq('confession_id',confId).order('created_at',{ascending:true});
-      if (error) throw error;
-      if (!data.length) {
-        el.innerHTML = '<div style="font-size:0.77rem;color:var(--muted);padding:0.35rem 0">No replies yet.</div>';
+    function handleImgSelect(input) {
+      const file = input.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('✗ Image too large (max 5MB)');
+        input.value = '';
         return;
       }
-      el.innerHTML = data.map(c=>`
+      selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        document.getElementById('img-preview-tag').src = e.target.result;
+        document.getElementById('img-preview-wrap').classList.add('active');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeImg() {
+      selectedFile = null;
+      document.getElementById('conf-img').value = '';
+      document.getElementById('img-preview-wrap').classList.remove('active');
+    }
+
+    async function uploadImage(file) {
+      const ext = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${ext}`;
+      const filePath = `uploads/${fileName}`;
+
+      const { data, error } = await db.storage
+        .from('confessions')
+        .upload(filePath, file);
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = db.storage
+        .from('confessions')
+        .getPublicUrl(filePath);
+
+      return publicUrl;
+    }
+
+    async function submitConfession() {
+      const text = document.getElementById('conf-text').value.trim();
+      const cat = document.getElementById('conf-cat').value;
+      const campus = document.getElementById('conf-campus').value.trim();
+      if (!text || text.length < 10) { showToast('✗ Needs at least 10 characters'); return; }
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true; btn.textContent = 'Posting…';
+      try {
+        let imageUrl = null;
+        if (selectedFile) {
+          btn.textContent = 'Uploading image…';
+          imageUrl = await uploadImage(selectedFile);
+        }
+
+        const { error } = await db.from('confessions').insert({
+          content: text, category: cat, campus: campus || null, image_url: imageUrl, likes_count: 0, comments_count: 0
+        });
+        if (error) throw error;
+        document.getElementById('conf-text').value = '';
+        document.getElementById('conf-campus').value = '';
+        document.getElementById('conf-cat').value = 'general';
+        removeImg();
+        updateChar();
+        showToast('✓ Confession posted anonymously!');
+        fetchFeed();
+      } catch (e) {
+        showToast('✗ Failed — check Supabase config');
+        console.error(e);
+      } finally {
+        btn.disabled = false; btn.textContent = 'Confess Anonymously →';
+      }
+    }
+
+    async function toggleLike(id, btn) {
+      const isLiked = likedIds.includes(id);
+      const lcEl = btn.querySelector('.lc');
+      const ikEl = btn.querySelector('.ik');
+      const cur = parseInt(lcEl.textContent) || 0;
+      const next = isLiked ? cur - 1 : cur + 1;
+      lcEl.textContent = next;
+      if (isLiked) {
+        likedIds = likedIds.filter(x => x !== id);
+        btn.classList.remove('liked'); ikEl.textContent = '♡';
+      } else {
+        likedIds.push(id);
+        btn.classList.add('liked'); ikEl.textContent = '♥';
+      }
+      localStorage.setItem('cc_liked', JSON.stringify(likedIds));
+      await db.from('confessions').update({ likes_count: next }).eq('id', id);
+    }
+
+    async function toggleCmts(id) {
+      const wrap = document.getElementById(`cmts-${id}`);
+      const open = wrap.classList.toggle('open');
+      if (open) loadComments(id);
+    }
+
+    async function loadComments(confId) {
+      const el = document.getElementById(`clist-${confId}`);
+      try {
+        const { data, error } = await db.from('comments')
+          .select('*').eq('confession_id', confId).order('created_at', { ascending: true });
+        if (error) throw error;
+        if (!data.length) {
+          el.innerHTML = '<div style="font-size:0.77rem;color:var(--muted);padding:0.35rem 0">No replies yet.</div>';
+          return;
+        }
+        el.innerHTML = data.map(c => `
         <div class="cmt-item">
           <span class="cmt-who">Anon · ${timeAgo(c.created_at)}</span>${esc(c.content)}
         </div>`).join('');
-    } catch(e) {
-      el.innerHTML = '<div style="color:red;font-size:0.77rem">Failed to load replies.</div>';
+      } catch (e) {
+        el.innerHTML = '<div style="color:red;font-size:0.77rem">Failed to load replies.</div>';
+      }
     }
-  }
 
-  async function addComment(confId) {
-    const input = document.getElementById(`ci-${confId}`);
-    const text = input.value.trim();
-    if (!text) return;
-    input.disabled = true;
-    try {
-      const { error } = await db.from('comments').insert({confession_id:confId, content:text});
-      if (error) throw error;
-      const ccEl = document.getElementById(`cc-${confId}`);
-      const next = (parseInt(ccEl.textContent)||0)+1;
-      ccEl.textContent = next;
-      await db.from('confessions').update({comments_count:next}).eq('id',confId);
-      input.value = ''; loadComments(confId);
-      showToast('💬 Reply posted!');
-    } catch(e) { showToast('✗ Failed to post reply'); }
-    finally { input.disabled = false; }
-  }
+    async function addComment(confId) {
+      const input = document.getElementById(`ci-${confId}`);
+      const text = input.value.trim();
+      if (!text) return;
+      input.disabled = true;
+      try {
+        const { error } = await db.from('comments').insert({ confession_id: confId, content: text });
+        if (error) throw error;
+        const ccEl = document.getElementById(`cc-${confId}`);
+        const next = (parseInt(ccEl.textContent) || 0) + 1;
+        ccEl.textContent = next;
+        await db.from('confessions').update({ comments_count: next }).eq('id', confId);
+        input.value = ''; loadComments(confId);
+        showToast('💬 Reply posted!');
+      } catch (e) { showToast('✗ Failed to post reply'); }
+      finally { input.disabled = false; }
+    }
 
-  function setFilter(f, btn) {
-    currentFilter = f;
-    document.querySelectorAll('.chip').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    fetchFeed();
-  }
-
-  function setFilterTag(tag) {
-    currentFilter = tag;
-    document.querySelectorAll('.chip').forEach(b=>b.classList.toggle('active', b.dataset.f===tag));
-    fetchFeed();
-  }
-
-  db.channel('cc-rt')
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'confessions'},()=>{
-      showToast('✨ New confession just dropped!');
+    function setFilter(f, btn) {
+      currentFilter = f;
+      document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
       fetchFeed();
-    }).subscribe();
+    }
 
-  fetchFeed();
-</script>
+    function setFilterTag(tag) {
+      currentFilter = tag;
+      document.querySelectorAll('.chip').forEach(b => b.classList.toggle('active', b.dataset.f === tag));
+      fetchFeed();
+    }
+
+    db.channel('cc-rt')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'confessions' }, () => {
+        showToast('✨ New confession just dropped!');
+        fetchFeed();
+      }).subscribe();
+
+    fetchFeed();
+  </script>
 </body>
+
 </html>
