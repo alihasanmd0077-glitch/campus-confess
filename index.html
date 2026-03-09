@@ -834,6 +834,7 @@
     <div class="hero-stats">
       <div class="stat-pill"><span class="val" id="stat-total">—</span><span class="lbl">Confessions</span></div>
       <div class="stat-pill"><span class="val" id="stat-today">—</span><span class="lbl">Today</span></div>
+      <div class="stat-pill"><span class="val" id="stat-online">—</span><span class="lbl">Online</span></div>
       <div class="stat-pill"><span class="val" id="stat-likes">—</span><span class="lbl">Likes</span></div>
       <div class="stat-pill"><span class="val" id="stat-comments">—</span><span class="lbl">Replies</span></div>
     </div>
@@ -1198,6 +1199,26 @@
         showToast('✨ New confession just dropped!');
         fetchFeed();
       }).subscribe();
+
+    // Online Users Tracking (Presence)
+    const presenceChannel = db.channel('online-users');
+    presenceChannel
+      .on('presence', { event: 'sync' }, () => {
+        const newState = presenceChannel.presenceState();
+        const onlineCount = Object.keys(newState).length;
+        document.getElementById('stat-online').textContent = onlineCount || 1;
+      })
+      .on('presence', { event: 'join', key: 'user' }, ({ key, newPresences }) => {
+        // console.log('join', key, newPresences)
+      })
+      .on('presence', { event: 'leave', key: 'user' }, ({ key, leftPresences }) => {
+        // console.log('leave', key, leftPresences)
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED') {
+          await presenceChannel.track({ online_at: new Date().toISOString() });
+        }
+      });
 
     fetchFeed();
   </script>
